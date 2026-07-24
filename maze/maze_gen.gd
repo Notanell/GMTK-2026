@@ -47,29 +47,21 @@ func dist_to_end(from_cell):
 	var stack : Array[Vector2i] # x, y of cells in stack
 	while visited_cell_count < total_cells:
 		if current_cell == end_cell:
-			print(stack)
 			return stack.size()
 		var connected_cells = cell_connections(current_cell)
-		if visited_cells[current_cell.x + (current_cell.y * maze_size.x)].y == 0:
+		if visited_cells[current_cell.x + (current_cell.y * maze_size.x)].y == 0: # if current cell hasn't been visited, mark it as such
 			visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x = connected_cells.size()
 			visited_cells[current_cell.x + (current_cell.y * maze_size.x)].y = 1
 			visited_cell_count += 1 # for solving maze, only add to the visited cell count on the initial visit
-		if visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x > 0:
-			#visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x -= 1
-			var connected_cell = connected_cells[visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x - 1]
-			while visited_cells[connected_cell.x + (connected_cell.y * maze_size.x)].y == 1: # if a connected cell has been visited, check the next in the list
-				visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x -= 1
-				connected_cell = connected_cells[visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x - 1]
-				if visited_cells[connected_cell.x + (connected_cell.y * maze_size.x)].y == 0: # check if the connected cell has been visited, if it hasn't, go there
-					var next_cell = connected_cells[visited_cells[current_cell.x + (current_cell.y * maze_size.x)].y] # this indexes backwards through the connected cells of the current cell as it uses the decrementing count of connected cells of this cell which haven't been visited
-					stack.push_back(current_cell)
-					current_cell = next_cell
-				if visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x <= 0: # if there's no more connected cells available to be checked, go back down the stack
-					current_cell = stack.pop_back()
-			#print('Visited ' + String.num_int64(visited_cell_count) + '/' + String.num_int64(total_cells))
-		else:
-			current_cell = stack.pop_back()
-		print(stack)
+		for i in range(connected_cells.size()): # check for unvisited neighbours, if one is found, go to it, otherwise backtrack down the stack
+			var connected_cell = connected_cells[i]
+			if visited_cells[connected_cell.x + (connected_cell.y * maze_size.x)].y == 0:
+				stack.push_back(current_cell)
+				current_cell = connected_cell
+				break;
+			if i == (connected_cells.size() - 1):
+				current_cell = stack.pop_back()
+		#print(stack)
 	
 
 # Returns non-visited neighbours of a cell, for use during maze generation

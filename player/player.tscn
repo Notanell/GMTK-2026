@@ -20,6 +20,7 @@ radius = 8.062258
 
 [node name="Player" type="CharacterBody2D" unique_id=1043513971]
 script = ExtResource("1_rkbax")
+movement_delay = 0.2
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2120908171]

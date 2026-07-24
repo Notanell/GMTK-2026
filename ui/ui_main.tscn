@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dw4gyle7vbsou"]
 
 [ext_resource type="Theme" uid="uid://b2471m2b08brx" path="res://ui/ui_theme.tres" id="1_drby1"]
+[ext_resource type="Script" uid="uid://c7o0ibipjsm67" path="res://ui/ui_main.gd" id="1_y2dby"]
 
 [node name="ui_main" type="Control" unique_id=22940701]
 layout_mode = 3
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_y2dby")
 
 [node name="CountToExit" type="VBoxContainer" parent="." unique_id=461505266]
 layout_mode = 0

@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var movement_delay = 0.2
+@export var movement_delay = 1.0
 
 #@export var SPEED = 100.0
 #const JUMP_VELOCITY = -400.0
@@ -13,17 +13,12 @@ var maze_size : Vector2i
 var maze_tileoffset : Vector2i
 
 var movement_timer = 0
-var stored_direction : Vector2
+var last_direction : Vector2
+var maze_coord : Vector2i:
+	get:
+		return tilemap.local_to_map(tilemap.to_local(global_position)) - maze_tileoffset
 
 func _physics_process(_delta):
-	## Add the gravity.
-	#if not is_on_floor():
-		#velocity += get_gravity() * delta
-
-	## Handle jump.
-	#if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		#velocity.y = JUMP_VELOCITY
-
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_vector(
 		"move_left",
@@ -31,20 +26,19 @@ func _physics_process(_delta):
 		"move_up",
 		"move_down"
 	)
-	movement_timer += _delta
-	if stored_direction != direction && direction != Vector2(0, 0):
-		stored_direction = direction
-	if movement_timer > movement_delay:
-		tile_movement(stored_direction)
-		stored_direction = Vector2(0, 0)
+	
+	if movement_timer > movement_delay || ((direction.is_zero_approx() == false) && (direction != last_direction)):
+		tile_movement(direction)
+		last_direction = direction
 		movement_timer = 0
+	movement_timer += _delta
 
 func start(pos):
 	position = pos
 	
 func tile_movement(dir_input : Vector2i):
-	var current_tile = tilemap.local_to_map(tilemap.to_local(global_position))
-	var current_cell = current_tile - maze_tileoffset
+	#var current_tile = tilemap.local_to_map(tilemap.to_local(global_position))
+	var current_cell = maze_coord
 	var target_cell = current_cell + dir_input
 	#print(current_tile)
 	if target_cell.x >= 0 && target_cell.y >= 0 && target_cell.x < maze_size.x && target_cell.y < maze_size.y:
