@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="GMTK-2026"
-run/main_scene="uid://cdj0d0h2hn1j3"
+run/main_scene="uid://3btmwuqfac8h"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 MazeHelp="*uid://c6jxlwxvri64h"
+SceneManager="*uid://cmbmqt1w4volr"
 
 [display]
 

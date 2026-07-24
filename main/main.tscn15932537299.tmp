@@ -3,18 +3,20 @@
 [ext_resource type="Script" uid="uid://bn61gbfq5jeb7" path="res://main/main.gd" id="1_53q0u"]
 [ext_resource type="PackedScene" uid="uid://0oef8ydi13kw" path="res://player/player.tscn" id="2_pjrb6"]
 [ext_resource type="PackedScene" uid="uid://cfos4imlo8i4m" path="res://maze/maze.tscn" id="3_xwkvk"]
-[ext_resource type="PackedScene" uid="uid://bxsxsvbj7tqco" path="res://fog/fog.tscn" id="4_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://dw4gyle7vbsou" path="res://ui/ui_main.tscn" id="4_c651c"]
+[ext_resource type="Texture2D" uid="uid://cslkrhhjjtiko" path="res://player/fog.png" id="5_3wy1v"]
 
-[node name="Main" type="Node" unique_id=160582790]
+[node name="Main" type="Node" unique_id=2081124505]
 script = ExtResource("1_53q0u")
 
 [node name="Maze" parent="." unique_id=1779557300 instance=ExtResource("3_xwkvk")]
 
 [node name="Player" parent="." unique_id=670638703 instance=ExtResource("2_pjrb6")]
 
-[node name="Fog" parent="." unique_id=956344362 instance=ExtResource("4_3wy1v")]
+[node name="Fog" type="Sprite2D" parent="." unique_id=271214566]
 visible = false
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("5_3wy1v")
 
 [node name="ui_main" parent="." unique_id=22940701 instance=ExtResource("4_c651c")]
 

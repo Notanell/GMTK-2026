@@ -1,5 +1,5 @@
 extends Control
-		
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -9,9 +9,7 @@ func _ready():
 func _process(delta):
 	pass
 
-func set_counttoexit(count : int):
-	$CountToExit/CountToExit_Count.set_text(String.num_int64(count))
 
-func set_counttoshift(count : float):
-	count = ceili(count)
-	$ShiftTimer/ShiftTimer_Count.set_text(String.num_int64(count))
+func _on_button_pressed():
+	SceneManager.load_main()
+	pass # Replace with function body.

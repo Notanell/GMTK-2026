@@ -4,16 +4,18 @@ class_name MazeGen
 # bit is one if connected to the cell in that direction
 # compass also counts in this direction: 0, 1, 2, 3 - E, S, W, N
 
-const start_cell = Vector2i(0, 0)
-var end_cell = Vector2i(0, 0)
+var start_cell = Vector2i(0, 0)
+var end_cell = Vector2i(1, 1)
 var maze : PackedInt32Array = PackedInt32Array()
 var maze_size = Vector2i(10, 10)
 
 
-func generate_maze(maze_size_input=Vector2i(10, 10)) -> PackedInt32Array:
+func generate_maze(maze_size_input=Vector2i(10, 10), start_cell_input=Vector2i(0, 0), end_cell_input=Vector2i(1, 1)) -> PackedInt32Array:
 	#print('Generate Maze Function Called')
 	maze_size = maze_size_input
-	end_cell = Vector2i(maze_size.x - 1, maze_size.y - 1)
+	start_cell = start_cell_input
+	end_cell = end_cell_input
+	#end_cell = Vector2i(maze_size.x - 1, maze_size.y - 1)
 	maze.clear()
 	maze.resize(maze_size.x * maze_size.y)
 	
@@ -23,7 +25,7 @@ func generate_maze(maze_size_input=Vector2i(10, 10)) -> PackedInt32Array:
 	var stack : Array[Vector2i]
 	while visited_cells < total_cells:
 		var neighbours = cell_neighbours(current_cell)
-		if neighbours.size() > 0:
+		if neighbours.size() > 0 && current_cell != end_cell:
 			var rand = randi_range(0, neighbours.size() - 1)
 			var next_cell = Vector2i(neighbours[rand].x, neighbours[rand].y)
 			connect_cells(current_cell, next_cell, neighbours[rand].z)
@@ -45,7 +47,7 @@ func dist_to_end(from_cell):
 	visited_cells.resize(maze.size())
 	visited_cells.fill(Vector2i(0,0)) 
 	var stack : Array[Vector2i] # x, y of cells in stack
-	while visited_cell_count < total_cells:
+	while visited_cell_count <= total_cells:
 		if current_cell == end_cell:
 			return stack.size()
 		var connected_cells = cell_connections(current_cell)
@@ -62,6 +64,7 @@ func dist_to_end(from_cell):
 			if i == (connected_cells.size() - 1):
 				current_cell = stack.pop_back()
 		#print(stack)
+	push_error("Hit max visited cell count without finding the end cell")
 	
 
 # Returns non-visited neighbours of a cell, for use during maze generation

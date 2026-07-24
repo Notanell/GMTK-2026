@@ -12,11 +12,13 @@ var maze : PackedInt32Array
 var maze_size : Vector2i
 var maze_tileoffset : Vector2i
 
+var can_move = true
 var movement_timer = 0
 var last_direction : Vector2
 var maze_coord : Vector2i:
 	get:
 		return tilemap.local_to_map(tilemap.to_local(global_position)) - maze_tileoffset
+
 
 func _physics_process(_delta):
 	# Get the input direction and handle the movement/deceleration.
@@ -26,15 +28,18 @@ func _physics_process(_delta):
 		"move_up",
 		"move_down"
 	)
-	
-	if movement_timer > movement_delay || ((direction.is_zero_approx() == false) && (direction != last_direction)):
-		tile_movement(direction)
-		last_direction = direction
-		movement_timer = 0
-	movement_timer += _delta
+	if can_move == true:
+		if movement_timer > movement_delay || ((direction.is_zero_approx() == false) && (direction != last_direction)):
+			tile_movement(direction)
+			last_direction = direction
+			movement_timer = 0
+		movement_timer += _delta
 
-func start(pos):
-	position = pos
+
+func set_maze_pos(target_cell : Vector2i):
+	var target_tile = target_cell + maze_tileoffset
+	var target_position = tilemap.to_global(tilemap.map_to_local(target_tile))
+	global_position = target_position
 	
 func tile_movement(dir_input : Vector2i):
 	#var current_tile = tilemap.local_to_map(tilemap.to_local(global_position))
@@ -48,8 +53,8 @@ func tile_movement(dir_input : Vector2i):
 					var target_tile = target_cell + maze_tileoffset
 					var target_position = tilemap.to_global(tilemap.map_to_local(target_tile))
 					global_position = target_position
+					play_step()
 	pass
-	
-	
-func fog(state):
-	$Fog.visible = state
+
+func play_step():
+	$StepAudio.play()

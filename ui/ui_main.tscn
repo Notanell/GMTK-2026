@@ -12,6 +12,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_y2dby")
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1950937863]
+layout_mode = 0
+offset_top = 680.0
+offset_right = 800.0
+offset_bottom = 800.0
+color = Color(0.18431373, 0.3019608, 0.18431373, 1)
+
 [node name="CountToExit" type="VBoxContainer" parent="." unique_id=461505266]
 layout_mode = 0
 offset_left = 16.0
