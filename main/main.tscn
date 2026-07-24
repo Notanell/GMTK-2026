@@ -13,3 +13,7 @@ script = ExtResource("1_53q0u")
 [node name="Player" parent="." unique_id=670638703 instance=ExtResource("2_pjrb6")]
 
 [node name="ui_main" parent="." unique_id=22940701 instance=ExtResource("4_c651c")]
+
+[node name="ShiftTimer" type="Timer" parent="." unique_id=686392532]
+
+[connection signal="timeout" from="ShiftTimer" to="." method="_on_timer_timeout"]

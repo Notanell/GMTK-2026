@@ -11,10 +11,10 @@ var maze_size = Vector2i(10, 10)
 
 
 func generate_maze(maze_size_input=Vector2i(10, 10)) -> PackedInt32Array:
-	print('Generate Maze Function Called')
-	#initialise_arrays()
+	#print('Generate Maze Function Called')
 	maze_size = maze_size_input
 	end_cell = Vector2i(maze_size.x - 1, maze_size.y - 1)
+	maze.clear()
 	maze.resize(maze_size.x * maze_size.y)
 	
 	var total_cells = maze.size()

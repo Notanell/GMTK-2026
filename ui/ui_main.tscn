@@ -23,11 +23,33 @@ theme = ExtResource("1_drby1")
 [node name="CountToExit_Label" type="RichTextLabel" parent="CountToExit" unique_id=2075273994]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 30
-text = "Distance: "
+text = "Distance"
 fit_content = true
 horizontal_alignment = 1
 
 [node name="CountToExit_Count" type="RichTextLabel" parent="CountToExit" unique_id=220896096]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "100"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="ShiftTimer" type="VBoxContainer" parent="." unique_id=757020776]
+layout_mode = 0
+offset_left = 576.0
+offset_top = 696.0
+offset_right = 784.0
+offset_bottom = 784.0
+theme = ExtResource("1_drby1")
+
+[node name="ShiftTimer_Label" type="RichTextLabel" parent="ShiftTimer" unique_id=220127668]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "Time To Shift"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="ShiftTimer_Count" type="RichTextLabel" parent="ShiftTimer" unique_id=491868259]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 30
 text = "100"
