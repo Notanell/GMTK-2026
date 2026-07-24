@@ -1,5 +1,6 @@
 extends Node2D
 
+
 const maze_maxsize = Vector2i(18, 15)
 
 var MazeGenerator = MazeGen.new()
