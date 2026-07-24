@@ -1,22 +1,42 @@
 extends Node2D
 
 var MazeGenerator = MazeGen.new()
-
-var maze_size = Vector2i(10, 10)
+var maze_size = Vector2i(18, 18)
+var maze_tileoffset = Vector2i(1, 1)
+var maze : PackedInt32Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var maze = MazeGenerator.generate_maze(maze_size)
-	for y in range(maze_size.y):
-		print(maze.slice(0 + (y * maze_size.x), (maze_size.x) + (y * maze_size.x)))
-		for x in range(maze_size.x):
-			var cell = maze[x + y * maze_size.x]
-			place_tile(Vector2i(x, y), cell)
+	pass
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+	
+func new_maze(maze_size_input):
+	maze_size = maze_size_input
+	maze = MazeGenerator.generate_maze(maze_size)
+	for y in range(maze_size.y):
+		#print(String.num_int64(maze.slice(0 + (y * maze_size.x), (maze_size.x) + (y * maze_size.x))), 2)
+		var printstring : String = ''
+		for x in range(maze_size.x):
+			var num_str = String.num_int64(maze[x + (y * maze_size.x)], 2)
+			printstring += num_str.pad_zeros(4)
+			printstring += ', '
+			var cell = maze[x + (y * maze_size.x)]
+			place_tile(Vector2i(x, y), cell)
+		print(printstring)
 
 func place_tile(pos: Vector2i, cell : int):
-	print(cell & 0b0101)
-	if (cell & 0b0101) == 0b0101:
-		$TileMapLayer.set_cell(pos, 0, Vector2i(1, 0))
+	if ((cell & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['START']):
+		$TileMapLayer.set_cell(pos + maze_tileoffset, 0, MazeHelp.tiletype_atlascoord['START'])
+		return
+	elif ((cell & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['END']):
+		$TileMapLayer.set_cell(pos + maze_tileoffset, 0, MazeHelp.tiletype_atlascoord['END'])
+		return
+	for key in MazeHelp.tiletype_binary.keys():
+		if (cell & MazeHelp.connect_mask) == MazeHelp.tiletype_binary[key]:
+			#print(key)
+			$TileMapLayer.set_cell(pos + maze_tileoffset, 0, MazeHelp.tiletype_atlascoord[key])
+			break
+		
