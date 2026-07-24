@@ -1,7 +1,9 @@
 extends Node2D
 
+const maze_maxsize = Vector2i(18, 15)
+
 var MazeGenerator = MazeGen.new()
-var maze_size = Vector2i(18, 18)
+var maze_size = Vector2i(18, 15)
 var maze_tileoffset = Vector2i(1, 1)
 var maze : PackedInt32Array
 
@@ -15,6 +17,11 @@ func _process(delta):
 	
 func new_maze(maze_size_input):
 	maze_size = maze_size_input
+	if maze_size.x > maze_maxsize.x:
+		maze_size.x = maze_maxsize.x
+	if maze_size.y > maze_maxsize.y:
+		maze_size.y = maze_maxsize.y
+	
 	maze = MazeGenerator.generate_maze(maze_size)
 	for y in range(maze_size.y):
 		#print(String.num_int64(maze.slice(0 + (y * maze_size.x), (maze_size.x) + (y * maze_size.x))), 2)
