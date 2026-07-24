@@ -5,6 +5,7 @@ class_name MazeGen
 # compass also counts in this direction: 0, 1, 2, 3 - E, S, W, N
 
 const start_cell = Vector2i(0, 0)
+var end_cell = Vector2i(0, 0)
 var maze : PackedInt32Array = PackedInt32Array()
 var maze_size = Vector2i(10, 10)
 
@@ -13,7 +14,7 @@ func generate_maze(maze_size_input=Vector2i(10, 10)) -> PackedInt32Array:
 	print('Generate Maze Function Called')
 	#initialise_arrays()
 	maze_size = maze_size_input
-	var end_cell = Vector2i(maze_size.x - 1, maze_size.y - 1)
+	end_cell = Vector2i(maze_size.x - 1, maze_size.y - 1)
 	maze.resize(maze_size.x * maze_size.y)
 	
 	var total_cells = maze.size()
@@ -29,14 +30,49 @@ func generate_maze(maze_size_input=Vector2i(10, 10)) -> PackedInt32Array:
 			stack.push_back(current_cell)
 			current_cell = next_cell
 			visited_cells += 1
-			print('Visited ' + String.num_int64(visited_cells) + '/' + String.num_int64(total_cells))
+			#print('Visited ' + String.num_int64(visited_cells) + '/' + String.num_int64(total_cells))
 		else:
 			current_cell = stack.pop_back()
 	maze[(start_cell.x) + (start_cell.y * maze_size.x)] |= MazeHelp.START
 	maze[(end_cell.x) + (end_cell.y * maze_size.x)] |= MazeHelp.END
 	return maze
 
+func dist_to_end(from_cell):
+	var current_cell : Vector2i = from_cell
+	var total_cells = maze.size()
+	var visited_cell_count = 1
+	var visited_cells : Array[Vector2i] # number of unvisited neighbours (which decrements each time the search leaves this cell), has it had it's number of initial neighbours logged
+	visited_cells.resize(maze.size())
+	visited_cells.fill(Vector2i(0,0)) 
+	var stack : Array[Vector2i] # x, y of cells in stack
+	while visited_cell_count < total_cells:
+		if current_cell == end_cell:
+			print(stack)
+			return stack.size()
+		var connected_cells = cell_connections(current_cell)
+		if visited_cells[current_cell.x + (current_cell.y * maze_size.x)].y == 0:
+			visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x = connected_cells.size()
+			visited_cells[current_cell.x + (current_cell.y * maze_size.x)].y = 1
+			visited_cell_count += 1 # for solving maze, only add to the visited cell count on the initial visit
+		if visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x > 0:
+			#visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x -= 1
+			var connected_cell = connected_cells[visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x - 1]
+			while visited_cells[connected_cell.x + (connected_cell.y * maze_size.x)].y == 1: # if a connected cell has been visited, check the next in the list
+				visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x -= 1
+				connected_cell = connected_cells[visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x - 1]
+				if visited_cells[connected_cell.x + (connected_cell.y * maze_size.x)].y == 0: # check if the connected cell has been visited, if it hasn't, go there
+					var next_cell = connected_cells[visited_cells[current_cell.x + (current_cell.y * maze_size.x)].y] # this indexes backwards through the connected cells of the current cell as it uses the decrementing count of connected cells of this cell which haven't been visited
+					stack.push_back(current_cell)
+					current_cell = next_cell
+				if visited_cells[current_cell.x + (current_cell.y * maze_size.x)].x <= 0: # if there's no more connected cells available to be checked, go back down the stack
+					current_cell = stack.pop_back()
+			#print('Visited ' + String.num_int64(visited_cell_count) + '/' + String.num_int64(total_cells))
+		else:
+			current_cell = stack.pop_back()
+		print(stack)
+	
 
+# Returns non-visited neighbours of a cell, for use during maze generation
 func cell_neighbours(cell : Vector2i):
 	var neighbours = Array()
 	for compass in range(MazeHelp.dirs.size()):
@@ -49,7 +85,17 @@ func cell_neighbours(cell : Vector2i):
 				neighbours.append(Vector3i(neighbour_loc.x, neighbour_loc.y, compass)) # neighbour x, neighbour y, compass_index - 0, 1, 2, 3, ESNW
 	return neighbours
 
-
+# Sets cells within the maze array to be connected, for use during maze generation
 func connect_cells(from_cell : Vector2i, to_cell : Vector2i, compass : int):
 	maze[(from_cell.x) + (from_cell.y * maze_size.x)] |= MazeHelp.CONNECTIONS[compass]
 	maze[(to_cell.x) + (to_cell.y * maze_size.x)] |= MazeHelp.OPP_CONNECTIONS[compass]
+
+# Returns the connected cells of a cell, for use during maze solving
+func cell_connections(cell):
+	var connections = Array()
+	for compass in range(MazeHelp.dirs.size()):
+		var dir = MazeHelp.dirs[compass]
+		if (maze[cell.x + (cell.y * maze_size.x)] & MazeHelp.CONNECTIONS[compass]) == MazeHelp.CONNECTIONS[compass]:
+			var neighbour_loc : Vector2i = cell + dir
+			connections.append(neighbour_loc)
+	return connections

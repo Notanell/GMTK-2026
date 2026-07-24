@@ -1,0 +1,36 @@
+[gd_resource type="Theme" format=3 uid="uid://b2471m2b08brx"]
+
+[resource]
+ui_main_text/colors/default_color = Color(0, 0, 0, 1)
+ui_main_text/colors/font_outline_color = Color(0, 0, 0, 1)
+ui_main_text/colors/font_selected_color = Color(0, 0, 0, 1)
+ui_main_text/colors/font_shadow_color = Color(0, 0, 0, 1)
+ui_main_text/colors/selection_color = Color(0, 0, 0, 1)
+ui_main_text/colors/table_border = Color(0, 0, 0, 1)
+ui_main_text/colors/table_even_row_bg = Color(0, 0, 0, 1)
+ui_main_text/colors/table_odd_row_bg = Color(0, 0, 0, 1)
+ui_main_text/constants/line_separation = 0
+ui_main_text/constants/outline_size = 0
+ui_main_text/constants/paragraph_separation = 0
+ui_main_text/constants/shadow_offset_x = 0
+ui_main_text/constants/shadow_offset_y = 0
+ui_main_text/constants/shadow_outline_size = 0
+ui_main_text/constants/strikethrough_alpha = 0
+ui_main_text/constants/table_h_separation = 0
+ui_main_text/constants/table_v_separation = 0
+ui_main_text/constants/text_highlight_h_padding = 0
+ui_main_text/constants/text_highlight_v_padding = 0
+ui_main_text/constants/underline_alpha = 0
+ui_main_text/font_sizes/bold_font_size = 16
+ui_main_text/font_sizes/bold_italics_font_size = 16
+ui_main_text/font_sizes/italics_font_size = 16
+ui_main_text/font_sizes/mono_font_size = 16
+ui_main_text/font_sizes/normal_font_size = 30
+ui_main_text/fonts/bold_font = null
+ui_main_text/fonts/bold_italics_font = null
+ui_main_text/fonts/italics_font = null
+ui_main_text/fonts/mono_font = null
+ui_main_text/fonts/normal_font = null
+ui_main_text/icons/horizontal_rule = null
+ui_main_text/styles/focus = null
+ui_main_text/styles/normal = null
