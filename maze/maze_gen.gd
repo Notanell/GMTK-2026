@@ -6,15 +6,16 @@ class_name MazeGen
 
 var start_cell = Vector2i(0, 0)
 var end_cell = Vector2i(1, 1)
+var key_cell = Vector2i(1, 0)
 var maze : PackedInt32Array = PackedInt32Array()
 var maze_size = Vector2i(10, 10)
 
-
-func generate_maze(maze_size_input=Vector2i(10, 10), start_cell_input=Vector2i(0, 0), end_cell_input=Vector2i(1, 1)) -> PackedInt32Array:
+func generate_maze(maze_size_input=Vector2i(10, 10), start_cell_input=Vector2i(0, 0), end_cell_input=Vector2i(1, 1), key_cell_input=Vector2i(1, 0)) -> PackedInt32Array:
 	#print('Generate Maze Function Called')
 	maze_size = maze_size_input
 	start_cell = start_cell_input
 	end_cell = end_cell_input
+	key_cell = key_cell_input
 	#end_cell = Vector2i(maze_size.x - 1, maze_size.y - 1)
 	maze.clear()
 	maze.resize(maze_size.x * maze_size.y)
@@ -25,7 +26,7 @@ func generate_maze(maze_size_input=Vector2i(10, 10), start_cell_input=Vector2i(0
 	var stack : Array[Vector2i]
 	while visited_cells < total_cells:
 		var neighbours = cell_neighbours(current_cell)
-		if neighbours.size() > 0 && current_cell != end_cell:
+		if neighbours.size() > 0 && current_cell != end_cell && current_cell != key_cell:
 			var rand = randi_range(0, neighbours.size() - 1)
 			var next_cell = Vector2i(neighbours[rand].x, neighbours[rand].y)
 			connect_cells(current_cell, next_cell, neighbours[rand].z)
@@ -37,9 +38,10 @@ func generate_maze(maze_size_input=Vector2i(10, 10), start_cell_input=Vector2i(0
 			current_cell = stack.pop_back()
 	maze[(start_cell.x) + (start_cell.y * maze_size.x)] |= MazeHelp.START
 	maze[(end_cell.x) + (end_cell.y * maze_size.x)] |= MazeHelp.END
+	maze[(key_cell.x) + (key_cell.y * maze_size.x)] |= MazeHelp.KEY
 	return maze
 
-func dist_to_end(from_cell):
+func dist_to_target(from_cell, to_cell):
 	var current_cell : Vector2i = from_cell
 	var total_cells = maze.size()
 	var visited_cell_count = 1
@@ -48,7 +50,7 @@ func dist_to_end(from_cell):
 	visited_cells.fill(Vector2i(0,0)) 
 	var stack : Array[Vector2i] # x, y of cells in stack
 	while visited_cell_count <= total_cells:
-		if current_cell == end_cell:
+		if current_cell == to_cell:
 			return stack.size()
 		var connected_cells = cell_connections(current_cell)
 		if visited_cells[current_cell.x + (current_cell.y * maze_size.x)].y == 0: # if current cell hasn't been visited, mark it as such

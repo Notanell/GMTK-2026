@@ -20,6 +20,7 @@ const tiletype_binary = {
 	'E': 0b0001,
 	'START': 0b00010000,
 	'END': 0b00100000,
+	'KEY': 0b01000000,
 }
 
 const tiletype_atlascoord = {
@@ -40,12 +41,14 @@ const tiletype_atlascoord = {
 	'E': Vector2i(1, 3),
 	'START': Vector2i(3, 4),
 	'END': Vector2i(4, 3),
+	'KEY': Vector2i(4, 4),
 }
 
 const CONNECTIONS : PackedByteArray = [0b0001, 0b0010, 0b0100, 0b1000]
 const OPP_CONNECTIONS : PackedByteArray = [0b0100, 0b1000, 0b0001, 0b0010]
 const START = 0b00010000
 const END = 0b00100000
+const KEY = 0b01000000
 
 const startend_mask = 0b11110000
 const connect_mask = 0b00001111

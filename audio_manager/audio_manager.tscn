@@ -3,6 +3,7 @@
 [ext_resource type="AudioStream" uid="uid://bpy70pd4lri7t" path="res://assets/audio/global_eerie_music.mp3" id="1_j0p2n"]
 
 [node name="AudioManager" type="Node" unique_id=1652006322]
+process_mode = 3
 
 [node name="EerieMusicGlobal" type="AudioStreamPlayer" parent="." unique_id=123940687]
 stream = ExtResource("1_j0p2n")
