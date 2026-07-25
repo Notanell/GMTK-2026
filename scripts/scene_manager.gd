@@ -5,14 +5,13 @@ const MAIN = preload("res://main/main.tscn")
 const END = preload("res://end_scene/end_scene.tscn")
 #const TRANSITION = preload("res://fog/scene_transition_fog.tscn")
 
-@onready var fog_blackout = get_tree().root.get_node("SceneTransitionFog/FogBlackout")
-@onready var fog = get_tree().root.get_node("SceneTransitionFog/Fog")
+@onready var fog = get_tree().root.get_node("GlobalUI/Fog")
+@onready var globalmusic_eerie = get_tree().root.get_node("AudioManager/EerieMusicGlobal")
 
 var target_scene : String
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	fog_blackout.visible = false
 	var tween = get_tree().create_tween()
 	tween.tween_property(fog, "inner_diam", fog.main_diam, 1.5)
 	pass # Replace with function body.
@@ -24,11 +23,15 @@ func _process(delta):
 
 func load_scene(scene_name : String):
 	target_scene = scene_name
-	fade_out()
+	fade_fog_out()
+	if target_scene == "main_menu":
+		fade_in_music()
+	elif target_scene == "end":
+		fade_out_music()
 	
 func finish_loading():
 	if target_scene == "main_menu":
-		get_tree().change_scene_to_packed(MAIN_MENU)
+		get_tree().change_scene_to_packed(MAIN_MENU)			
 	elif target_scene == "main":
 		get_tree().change_scene_to_packed(MAIN)
 	elif target_scene == "end":
@@ -36,25 +39,24 @@ func finish_loading():
 	else:
 		get_tree().change_scene_to_packed(MAIN_MENU) # default to main menu
 	await get_tree().scene_changed
-	fade_in()
+	fade_fog_in()
 	
-func fade_out():
+func fade_fog_out():
 	var tween = get_tree().create_tween()
 	tween.tween_property(fog, "inner_diam", 0.0, 1.5)
 	tween.tween_callback(finish_loading)
 	
-func fade_in():
+func fade_fog_in():
 	var tween = get_tree().create_tween()
 	tween.tween_property(fog, "inner_diam", fog.main_diam, 1.5)
-		
-#func load_mainmenu():
-	#get_tree().change_scene_to_packed(MAIN_MENU)
-
-#func load_main():
-	#var tween = get_tree().create_tween()
-	#tween.tween_property(fog, "inner_diam", 0.0, 1.5)
-	#tween.tween_callback(finish_main_loading)
 	
+func fade_in_music():
+	globalmusic_eerie.set_volume_linear(0)
+	globalmusic_eerie.play()
+	var tween = get_tree().create_tween()
+	tween.tween_property(globalmusic_eerie, "volume_linear", 1, 5)
 
-#func load_end():
-	#get_tree().change_scene_to_packed(END)
+func fade_out_music():
+	var tween = get_tree().create_tween()
+	tween.tween_property(globalmusic_eerie, "volume_linear", 0, 5)
+	tween.tween_callback(globalmusic_eerie.stop)

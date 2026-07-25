@@ -1,8 +1,5 @@
 extends Node2D
 
-
-#const maze_maxsize = Vector2i(18, 15)
-
 var MazeGenerator = MazeGen.new()
 var maze_size = Vector2i(18, 15)
 var maze_tileoffset = Vector2i(1, 1)
