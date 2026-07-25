@@ -1,6 +1,9 @@
 [gd_resource type="Theme" format=3 uid="uid://b2471m2b08brx"]
 
+[ext_resource type="FontFile" uid="uid://c4c11hlf38mgj" path="res://assets/fonts/Kenney Pixel.ttf" id="1_udl1o"]
+
 [resource]
+default_font = ExtResource("1_udl1o")
 ui_main_text/colors/default_color = Color(0, 0, 0, 1)
 ui_main_text/colors/font_outline_color = Color(0, 0, 0, 1)
 ui_main_text/colors/font_selected_color = Color(0, 0, 0, 1)
@@ -26,11 +29,11 @@ ui_main_text/font_sizes/bold_italics_font_size = 16
 ui_main_text/font_sizes/italics_font_size = 16
 ui_main_text/font_sizes/mono_font_size = 16
 ui_main_text/font_sizes/normal_font_size = 30
-ui_main_text/fonts/bold_font = null
-ui_main_text/fonts/bold_italics_font = null
-ui_main_text/fonts/italics_font = null
-ui_main_text/fonts/mono_font = null
-ui_main_text/fonts/normal_font = null
+ui_main_text/fonts/bold_font = ExtResource("1_udl1o")
+ui_main_text/fonts/bold_italics_font = ExtResource("1_udl1o")
+ui_main_text/fonts/italics_font = ExtResource("1_udl1o")
+ui_main_text/fonts/mono_font = ExtResource("1_udl1o")
+ui_main_text/fonts/normal_font = ExtResource("1_udl1o")
 ui_main_text/icons/horizontal_rule = null
 ui_main_text/styles/focus = null
 ui_main_text/styles/normal = null

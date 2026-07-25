@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bh1cqph71cgtl"]
+
+[ext_resource type="Script" uid="uid://d3ou0hdm2erv0" path="res://fog/scene_transition_fog.gd" id="1_d0f5q"]
+
+[node name="SceneTransition" type="CanvasLayer" unique_id=1311390592]
+layer = 100
+
+[node name="Fog" type="Node2D" parent="." unique_id=584146988]
+position = Vector2(400, 400)
+script = ExtResource("1_d0f5q")
+
+[node name="FogBlackout" type="ColorRect" parent="." unique_id=647876191]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

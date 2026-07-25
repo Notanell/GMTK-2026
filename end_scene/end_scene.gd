@@ -15,5 +15,5 @@ func _process(delta):
 
 
 func _on_button_pressed():
-	SceneManager.load_mainmenu()
+	SceneManager.load_scene("main_menu")
 	pass # Replace with function body.

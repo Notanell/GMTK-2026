@@ -8,7 +8,6 @@
 
 [node name="Main" type="Node" unique_id=160582790]
 script = ExtResource("1_53q0u")
-shift_time = null
 
 [node name="Maze" parent="." unique_id=1779557300 instance=ExtResource("3_xwkvk")]
 

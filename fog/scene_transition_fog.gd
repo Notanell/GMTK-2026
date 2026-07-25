@@ -16,15 +16,12 @@ var inner_diam = default_inner_diam:
 func _draw():
 	draw_circle(Vector2(0, 0), main_diam, Color.BLACK, false, width, true)
 	pass
+	
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
 
 
-
-
-## Called when the node enters the scene tree for the first time.
-#func _ready():
-	#pass # Replace with function body.
-#
-#
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-	#pass
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass

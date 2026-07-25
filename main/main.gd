@@ -9,8 +9,8 @@ extends Node
 #const shift_times : PackedFloat32Array = [5, 5, 7, 9, 10, 10, 10]
 
 # test Game Parameters
-const maze_sizes : Array[Vector2i] = [Vector2i(15, 15), Vector2i(16, 16)]
-const shift_times : PackedFloat32Array = [120, 120]
+const maze_sizes : Array[Vector2i] = [Vector2i(4, 4)]
+const shift_times : PackedFloat32Array = [120]
 
 var current_maze_idx : int = 0
 var completed_current : bool = false
@@ -25,8 +25,9 @@ func _ready():
 	inject_mazeinfotoplayer()
 	$Player.set_maze_pos(start_cell)
 	$ShiftTimer.start(shift_times[current_maze_idx])
+	$Fog.inner_diam = $Fog.main_diam
 	var tween = get_tree().create_tween()
-	tween.tween_property($Fog, "inner_diam", $Fog.default_inner_diam, 1.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property($Fog, "inner_diam", $Fog.default_inner_diam, 1.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR).set_delay(2.0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -39,13 +40,11 @@ func _process(delta):
 			$Player.can_move = false
 			$ShiftTimer.stop()
 			completed_current = true
+			var tween = get_tree().create_tween()
+			tween.tween_property($Fog, "inner_diam", $Fog.main_diam, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR)
 			if current_maze_idx != (maze_sizes.size() - 1):
-				var tween = get_tree().create_tween()
-				tween.tween_property($Fog, "inner_diam", $Fog.main_diam, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR)
 				tween.tween_callback(fog_away_complete)
-			else:
-				var tween = get_tree().create_tween()
-				tween.tween_property($Fog, "inner_diam", 0, 1.5).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_LINEAR)
+			else: # if all the mazes are finished, go to scene change callback
 				tween.tween_callback(fog_end_complete)
 		pass
 	else:
@@ -83,4 +82,4 @@ func fog_away_complete():
 	$Player.can_move = true
 
 func fog_end_complete():
-	SceneManager.load_end()
+	SceneManager.load_scene("end")

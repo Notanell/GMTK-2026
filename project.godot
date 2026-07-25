@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 MazeHelp="*uid://c6jxlwxvri64h"
 SceneManager="*uid://cmbmqt1w4volr"
+SceneTransitionFog="*uid://bh1cqph71cgtl"
 
 [display]
 

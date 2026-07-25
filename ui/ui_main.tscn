@@ -1,7 +1,8 @@
-[gd_scene format=3 uid="uid://dw4gyle7vbsou"]
+[gd_scene format=4 uid="uid://dw4gyle7vbsou"]
 
 [ext_resource type="Theme" uid="uid://b2471m2b08brx" path="res://ui/ui_theme.tres" id="1_drby1"]
 [ext_resource type="Script" uid="uid://c7o0ibipjsm67" path="res://ui/ui_main.gd" id="1_y2dby"]
+[ext_resource type="TileSet" uid="uid://bc8g8w8ycqr3m" path="res://maze/maze_tileset.tres" id="2_ka3re"]
 
 [node name="ui_main" type="Control" unique_id=22940701]
 layout_mode = 3
@@ -12,7 +13,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_y2dby")
 
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1873003076]
+scale = Vector2(5, 5)
+tile_map_data = PackedByteArray("AAAAABAAAAAAAAEAAAAAABEAAAAAAAEAAAAAABIAAAAAAAEAAAAAABMAAAAAAAIAAAABABAAAAAAAAMAAAABABEAAAAAAAMAAAABABIAAAAAAAMAAAABABMAAAABAAIAAAACABAAAAAAAAMAAAACABEAAAAAAAMAAAACABIAAAAAAAMAAAACABMAAAABAAIAAAADABAAAAAAAAMAAAADABEAAAAAAAMAAAADABIAAAAAAAMAAAADABMAAAABAAIAAAAEABAAAAAAAAMAAAAEABEAAAAAAAMAAAAEABIAAAAAAAMAAAAEABMAAAABAAIAAAAFABAAAAAAAAMAAAAFABEAAAAAAAMAAAAFABIAAAAAAAMAAAAFABMAAAABAAIAAAAGABAAAAAAAAMAAAAGABEAAAAAAAMAAAAGABIAAAAAAAMAAAAGABMAAAABAAIAAAAHABAAAAAAAAMAAAAHABEAAAAAAAMAAAAHABIAAAAAAAMAAAAHABMAAAABAAIAAAAIABAAAAAAAAMAAAAIABEAAAAAAAMAAAAIABIAAAAAAAMAAAAIABMAAAABAAIAAAAJABAAAAAAAAMAAAAJABEAAAAAAAMAAAAJABIAAAAAAAMAAAAJABMAAAABAAIAAAAKABAAAAAAAAMAAAAKABEAAAAAAAMAAAAKABIAAAAAAAMAAAAKABMAAAABAAIAAAALABAAAAAAAAMAAAALABEAAAAAAAMAAAALABIAAAAAAAMAAAALABMAAAABAAIAAAAMABAAAAAAAAMAAAAMABEAAAAAAAMAAAAMABIAAAAAAAMAAAAMABMAAAABAAIAAAANABAAAAAAAAMAAAANABEAAAAAAAMAAAANABIAAAAAAAMAAAANABMAAAABAAIAAAAOABAAAAAAAAMAAAAOABEAAAAAAAMAAAAOABIAAAAAAAMAAAAOABMAAAABAAIAAAAPABAAAAAAAAMAAAAPABEAAAAAAAMAAAAPABIAAAAAAAMAAAAPABMAAAABAAIAAAAQABAAAAAAAAMAAAAQABEAAAAAAAMAAAAQABIAAAAAAAMAAAAQABMAAAABAAIAAAARABAAAAAAAAMAAAARABEAAAAAAAMAAAARABIAAAAAAAMAAAARABMAAAABAAIAAAASABAAAAAAAAMAAAASABEAAAAAAAMAAAASABIAAAAAAAMAAAASABMAAAABAAIAAAATABAAAAAAAAEAAAATABEAAAAAAAEAAAATABIAAAACAAEAAAATABMAAAACAAIAAAAAAA8AAAADAAAAAAABAA8AAAABAAAAAAACAA8AAAABAAAAAAADAA8AAAABAAAAAAAEAA8AAAABAAAAAAAFAA8AAAABAAAAAAAGAA8AAAABAAAAAAAHAA8AAAABAAAAAAAIAA8AAAABAAAAAAAJAA8AAAABAAAAAAAKAA8AAAABAAAAAAALAA8AAAABAAAAAAAMAA8AAAABAAAAAAANAA8AAAABAAAAAAAOAA8AAAABAAAAAAAPAA8AAAABAAAAAAAQAA8AAAABAAAAAAARAA8AAAABAAAAAAASAA8AAAABAAAAAAATAA8AAAAEAAAAAAAAAA4AAAAAAAEAAAAAAA0AAAAAAAEAAAAAAAwAAAAAAAEAAAAAAAsAAAAAAAEAAAAAAAoAAAAAAAEAAAAAAAkAAAAAAAEAAAAAAAgAAAAAAAEAAAAAAAcAAAAAAAEAAAAAAAYAAAAAAAEAAAAAAAUAAAAAAAEAAAAAAAQAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAAAAAABAAAAAAALAAAAAAABAAAAAAAMAAAAAAABAAAAAAANAAAAAAABAAAAAAAOAAAAAAABAAAAAAAPAAAAAAABAAAAAAAQAAAAAAABAAAAAAARAAAAAAABAAAAAAASAAAAAAABAAAAAAATAAEAAAACAAEAAAATAAIAAAACAAEAAAATAAMAAAACAAEAAAATAAQAAAACAAEAAAATAAUAAAACAAEAAAATAAYAAAACAAEAAAATAAcAAAACAAEAAAATAAgAAAACAAEAAAATAAkAAAACAAEAAAATAAoAAAACAAEAAAATAAsAAAACAAEAAAATAAwAAAACAAEAAAATAA0AAAACAAEAAAATAA4AAAACAAEAAAATAAAAAAACAAAAAAA=")
+tile_set = ExtResource("2_ka3re")
+
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1950937863]
+visible = false
 layout_mode = 0
 offset_top = 680.0
 offset_right = 800.0
@@ -20,45 +27,54 @@ offset_bottom = 800.0
 color = Color(0.18431373, 0.3019608, 0.18431373, 1)
 
 [node name="CountToExit" type="VBoxContainer" parent="." unique_id=461505266]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 696.0
-offset_right = 160.0
-offset_bottom = 784.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -392.0
+offset_top = 232.0
+offset_right = -64.0
+offset_bottom = 351.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_drby1")
-
-[node name="CountToExit_Label" type="RichTextLabel" parent="CountToExit" unique_id=2075273994]
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 30
-text = "Distance"
-fit_content = true
-horizontal_alignment = 1
 
 [node name="CountToExit_Count" type="RichTextLabel" parent="CountToExit" unique_id=220896096]
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 30
+theme = ExtResource("1_drby1")
+theme_override_font_sizes/normal_font_size = 100
 text = "100"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="CountToExit_Label" type="RichTextLabel" parent="CountToExit" unique_id=2075273994]
+layout_mode = 2
+theme = ExtResource("1_drby1")
+theme_override_font_sizes/normal_font_size = 50
+text = "Distance To Exit"
 fit_content = true
 horizontal_alignment = 1
 
 [node name="ShiftTimer" type="VBoxContainer" parent="." unique_id=757020776]
 layout_mode = 0
-offset_left = 576.0
-offset_top = 696.0
-offset_right = 784.0
-offset_bottom = 784.0
+offset_left = 544.0
+offset_top = 632.0
+offset_right = 752.0
+offset_bottom = 751.0
 theme = ExtResource("1_drby1")
-
-[node name="ShiftTimer_Label" type="RichTextLabel" parent="ShiftTimer" unique_id=220127668]
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 30
-text = "Time To Shift"
-fit_content = true
-horizontal_alignment = 1
 
 [node name="ShiftTimer_Count" type="RichTextLabel" parent="ShiftTimer" unique_id=491868259]
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/normal_font_size = 100
 text = "100"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="ShiftTimer_Label" type="RichTextLabel" parent="ShiftTimer" unique_id=220127668]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 50
+text = "Time To Shift"
 fit_content = true
 horizontal_alignment = 1
