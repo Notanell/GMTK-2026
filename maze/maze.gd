@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const maze_maxsize = Vector2i(18, 15)
+#const maze_maxsize = Vector2i(18, 15)
 
 var MazeGenerator = MazeGen.new()
 var maze_size = Vector2i(18, 15)
@@ -20,10 +20,10 @@ func _process(delta):
 func new_maze(maze_size_input:Vector2i, start_cell:Vector2i, end_cell := Vector2i(-1, -1)) -> Vector2i:
 	maze_ready = false
 	maze_size = maze_size_input
-	if maze_size.x > maze_maxsize.x:
-		maze_size.x = maze_maxsize.x
-	if maze_size.y > maze_maxsize.y:
-		maze_size.y = maze_maxsize.y
+	#if maze_size.x > maze_maxsize.x:
+		#maze_size.x = maze_maxsize.x
+	#if maze_size.y > maze_maxsize.y:
+		#maze_size.y = maze_maxsize.y
 	
 	if end_cell == Vector2i(-1, -1): # only choose a random end cell if one isn't provided
 		end_cell = select_end_cell(start_cell)

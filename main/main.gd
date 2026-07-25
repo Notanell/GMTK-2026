@@ -2,7 +2,16 @@ extends Node
 
 @export var shift_time : float = 5
 
-const maze_sizes : Array[Vector2i] = [Vector2i(5, 5), Vector2i(7, 7), Vector2i(9, 9), Vector2i(11, 10), Vector2i(13, 11), Vector2i(15, 13), Vector2i(18, 15)]
+@onready var UI_MAIN = $CanvasLayer/ui_main
+
+# Game Parameters
+#const maze_sizes : Array[Vector2i] = [Vector2i(5, 5), Vector2i(7, 7), Vector2i(9, 9), Vector2i(11, 10), Vector2i(13, 11), Vector2i(15, 13), Vector2i(18, 15)]
+#const shift_times : PackedFloat32Array = [5, 5, 7, 9, 10, 10, 10]
+
+# test Game Parameters
+const maze_sizes : Array[Vector2i] = [Vector2i(15, 15), Vector2i(16, 16)]
+const shift_times : PackedFloat32Array = [120, 120]
+
 var current_maze_idx : int = 0
 var completed_current : bool = false
 var start_cell = Vector2i(0, 0)
@@ -15,7 +24,7 @@ func _ready():
 	end_cell = $Maze.new_maze(maze_sizes[current_maze_idx], start_cell)
 	inject_mazeinfotoplayer()
 	$Player.set_maze_pos(start_cell)
-	$ShiftTimer.start(shift_time)
+	$ShiftTimer.start(shift_times[current_maze_idx])
 	var tween = get_tree().create_tween()
 	tween.tween_property($Fog, "inner_diam", $Fog.default_inner_diam, 1.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR)
 
@@ -24,8 +33,8 @@ func _process(delta):
 	$Fog.global_position = $Player.global_position
 	if $Maze.maze_ready == true:
 		var dist_from_end = $Maze.currentdistance_fromend($Player.maze_coord)
-		$ui_main.set_counttoexit(dist_from_end)
-		$ui_main.set_counttoshift($ShiftTimer.get_time_left())
+		UI_MAIN.set_counttoexit(dist_from_end)
+		UI_MAIN.set_counttoshift($ShiftTimer.get_time_left())
 		if dist_from_end == 0 && completed_current == false:
 			$Player.can_move = false
 			$ShiftTimer.stop()
@@ -56,20 +65,20 @@ func increment_maze():
 	end_cell = $Maze.new_maze(maze_sizes[current_maze_idx], start_cell)
 	inject_mazeinfotoplayer()
 	#$Player.start(Vector2(60, 60))
-	$ShiftTimer.start(shift_time)
+	$ShiftTimer.start(shift_times[current_maze_idx])
 	
 func _on_timer_timeout():
 	$Player.can_move = false
 	$Maze.new_maze(maze_sizes[current_maze_idx], start_cell, end_cell)
 	inject_mazeinfotoplayer()
-	$ShiftTimer.start(shift_time)
+	$ShiftTimer.start(shift_times[current_maze_idx])
 	$Player.can_move = true
 	pass # Replace with function body.
 
 func fog_away_complete():
 	increment_maze()
 	var tween = get_tree().create_tween()
-	tween.tween_property($Fog, "inner_diam", $Fog.default_inner_diam, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property($Fog, "inner_diam", $Fog.default_inner_diam, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR).set_delay(1.0)
 	completed_current = false
 	$Player.can_move = true
 

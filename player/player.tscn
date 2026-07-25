@@ -32,7 +32,6 @@ stream_4/stream = ExtResource("7_2ieo8")
 
 [node name="Player" type="CharacterBody2D" unique_id=1043513971]
 script = ExtResource("1_rkbax")
-movement_delay = 0.2
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2120908171]
@@ -45,3 +44,7 @@ shape = SubResource("CircleShape2D_32gta")
 [node name="StepAudio" type="AudioStreamPlayer" parent="." unique_id=1367073907]
 stream = SubResource("AudioStreamRandomizer_32gta")
 max_polyphony = 5
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=855464825]
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0
