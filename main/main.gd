@@ -5,11 +5,11 @@ extends Node
 @onready var UI_MAIN = $CanvasLayer/ui_main
 
 # Game Parameters
-const maze_sizes : Array[Vector2i] = [Vector2i(5, 5), Vector2i(7, 7), Vector2i(9, 9), Vector2i(11, 10), Vector2i(13, 11), Vector2i(15, 13), Vector2i(18, 15)]
+const maze_sizes : Array[Vector2i] = [Vector2i(8, 6), Vector2i(9, 9), Vector2i(11, 10), Vector2i(12, 12), Vector2i(13, 13), Vector2i(15, 15), Vector2i(18, 18)]
 #const shift_times : PackedFloat32Array = [5, 5, 7, 9, 10, 10, 10]
 
 var min_shift_time = 5.0
-var max_shift_time = 10.0
+var max_shift_time = 12.0
 
 # test Game Parameters
 #const maze_sizes : Array[Vector2i] = [Vector2i(4, 4)]
@@ -32,6 +32,8 @@ func _ready():
 	end_cell = arrayreturn[0]
 	key_cell = arrayreturn[1]
 	inject_mazeinfotoplayer()
+	UI_MAIN.get_node("CountToExit/CountToExit_Label").set_text("Distance To Key")
+	UI_MAIN.get_node("Lock").set_frame(0)
 	$Player.set_maze_pos(start_cell)
 	$ShiftTimer.start(select_shift_time($Maze.currentdistance_fromtarget($Player.maze_coord, key_cell)))
 	$Fog.inner_diam = $Fog.main_diam
@@ -63,6 +65,9 @@ func _process(delta):
 					tween.tween_callback(fog_end_complete)
 			else:
 				key_collected = true
+				$Maze.erase_overlay_cell(key_cell)
+				UI_MAIN.get_node("CountToExit/CountToExit_Label").set_text("Distance To Exit")
+				UI_MAIN.get_node("Lock").set_frame(1)
 		pass
 	else:
 		$Player.can_move = false
@@ -80,6 +85,8 @@ func increment_maze(): # moves to the next maze size
 	end_cell = arrayreturn[0]
 	key_cell = arrayreturn[1]
 	inject_mazeinfotoplayer()
+	UI_MAIN.get_node("Lock").set_frame(0)
+	UI_MAIN.get_node("CountToExit/CountToExit_Label").set_text("Distance To Key")
 	$ShiftTimer.start(select_shift_time($Maze.currentdistance_fromtarget($Player.maze_coord, end_cell)))
 	completed_current = false
 	key_collected = false
@@ -87,6 +94,8 @@ func increment_maze(): # moves to the next maze size
 func _on_timer_timeout(): # generates a new maze of the same size, with the same end point and key cell
 	$Player.can_move = false
 	$Maze.new_maze(maze_sizes[current_maze_idx], start_cell, end_cell, key_cell)
+	if key_collected: 
+		$Maze.erase_overlay_cell(key_cell)
 	inject_mazeinfotoplayer()
 	$ShiftTimer.start(select_shift_time($Maze.currentdistance_fromtarget($Player.maze_coord, end_cell)))
 	$Player.can_move = true

@@ -6,6 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://btvgbh7slhkbg" path="res://end_scene/menubutton_texture.png" id="4_e33jf"]
 [ext_resource type="Texture2D" uid="uid://cwo2gj5j0sav3" path="res://end_scene/menubuttonpressed_texture.png" id="5_iy1qb"]
 
+[sub_resource type="InputEventKey" id="InputEventKey_e33jf"]
+device = -1
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_3f7m4"]
+events = [SubResource("InputEventKey_e33jf")]
+
 [node name="EndScene" type="Control" unique_id=599057346]
 layout_mode = 3
 anchors_preset = 15
@@ -34,6 +41,7 @@ offset_bottom = 149.0
 grow_horizontal = 2
 grow_vertical = 2
 offset_transform_enabled = true
+shortcut = SubResource("Shortcut_3f7m4")
 texture_normal = ExtResource("4_e33jf")
 texture_hover = ExtResource("5_iy1qb")
 ignore_texture_size = true

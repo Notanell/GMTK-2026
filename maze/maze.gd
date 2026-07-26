@@ -15,6 +15,7 @@ func _process(delta):
 	pass
 	
 func new_maze(maze_size_input:Vector2i, start_cell:Vector2i, end_cell := Vector2i(-1, -1), key_cell := Vector2i(-1, -1)) -> Array[Vector2i]:
+	$OverlayTileLayer.clear() # empty the overlay tile layer 
 	maze_ready = false
 	maze_size = maze_size_input
 	#if maze_size.x > maze_maxsize.x:
@@ -40,19 +41,19 @@ func new_maze(maze_size_input:Vector2i, start_cell:Vector2i, end_cell := Vector2
 	maze_ready = true
 	return [end_cell, key_cell]
 
-func place_tile(pos: Vector2i, cell : int):
-	if ((cell & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['START']):
-		$TileMapLayer.set_cell(pos + maze_tileoffset, 0, MazeHelp.tiletype_atlascoord['START'])
-		return
-	elif ((cell & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['END']):
-		$TileMapLayer.set_cell(pos + maze_tileoffset, 0, MazeHelp.tiletype_atlascoord['END'])
-		return
-	elif ((cell & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['KEY']):
-		$TileMapLayer.set_cell(pos + maze_tileoffset, 0, MazeHelp.tiletype_atlascoord['KEY'])
-		return
+func place_tile(cell: Vector2i, type : int):
+	if ((type & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['START']):
+		$OverlayTileLayer.set_cell(cell + maze_tileoffset, 1, MazeHelp.tiletype_atlascoord['START'])
+		#return
+	elif ((type & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['END']):
+		$OverlayTileLayer.set_cell(cell + maze_tileoffset, 1, MazeHelp.tiletype_atlascoord['END'])
+		#return
+	elif ((type & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['KEY']):
+		$OverlayTileLayer.set_cell(cell + maze_tileoffset, 1, MazeHelp.tiletype_atlascoord['KEY'])
+		#return
 	for key in MazeHelp.tiletype_binary.keys():
-		if (cell & MazeHelp.connect_mask) == MazeHelp.tiletype_binary[key]:
-			$TileMapLayer.set_cell(pos + maze_tileoffset, 0, MazeHelp.tiletype_atlascoord[key])
+		if (type & MazeHelp.connect_mask) == MazeHelp.tiletype_binary[key]:
+			$TileMapLayer.set_cell(cell + maze_tileoffset, 0, MazeHelp.tiletype_atlascoord[key])
 			break
 			
 func currentdistance_fromtarget(from_cell, to_cell):
@@ -75,6 +76,13 @@ func select_end_cell(start_cell : Vector2i) -> Vector2i: # start cell provided t
 
 func select_key_cell(start_cell : Vector2i, end_cell : Vector2i) -> Vector2i:
 	var key_cell = start_cell
-	while key_cell == start_cell || key_cell == end_cell:
+	var iter = 0
+	while (key_cell.x in range(start_cell.x - 1, start_cell.y + 1)) || (key_cell.y in range(start_cell.y - 1, start_cell.y + 1)) || (key_cell.x in range(end_cell.x - 1, end_cell.y + 1) || key_cell.y in range(end_cell.y - 1, end_cell.y + 1)):
 		key_cell = Vector2i(randi_range(0, maze_size.x - 1), randi_range(0, maze_size.y - 1))
+		iter += 1
+		if iter > 10:
+			break
 	return key_cell
+	
+func erase_overlay_cell(cell : Vector2i):
+	$OverlayTileLayer.erase_cell(cell + maze_tileoffset)
