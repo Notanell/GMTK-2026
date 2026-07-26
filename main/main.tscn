@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://cfos4imlo8i4m" path="res://maze/maze.tscn" id="3_xwkvk"]
 [ext_resource type="PackedScene" uid="uid://bxsxsvbj7tqco" path="res://fog/fog.tscn" id="4_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://dw4gyle7vbsou" path="res://ui/ui_main.tscn" id="4_c651c"]
+[ext_resource type="AudioStream" uid="uid://bb6meya4xevow" path="res://assets/audio/lock_unlock.mp3" id="6_kfbq2"]
+[ext_resource type="AudioStream" uid="uid://so6nd5072ama" path="res://assets/audio/hedges_rustling.mp3" id="7_4dugh"]
 
 [node name="Main" type="Node" unique_id=160582790]
 script = ExtResource("1_53q0u")
@@ -20,5 +22,11 @@ script = ExtResource("1_53q0u")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=956141330]
 
 [node name="ui_main" parent="CanvasLayer" unique_id=22940701 instance=ExtResource("4_c651c")]
+
+[node name="KeyCollect" type="AudioStreamPlayer" parent="." unique_id=1857580515]
+stream = ExtResource("6_kfbq2")
+
+[node name="MazeChanging" type="AudioStreamPlayer" parent="." unique_id=278050728]
+stream = ExtResource("7_4dugh")
 
 [connection signal="timeout" from="ShiftTimer" to="." method="_on_timer_timeout"]

@@ -51,9 +51,12 @@ func _process(delta):
 		else:
 			dist_from_target = $Maze.currentdistance_fromtarget($Player.maze_coord, end_cell)
 		UI_MAIN.set_counttoexit(dist_from_target)
-		UI_MAIN.set_counttoshift($ShiftTimer.get_time_left())
-		if dist_from_target == 0 && completed_current == false:
-			if key_collected:
+		var time_left = $ShiftTimer.get_time_left()
+		if time_left < 1.0 && $MazeChanging.playing == false:
+			$MazeChanging.playing = true
+		UI_MAIN.set_counttoshift(time_left)
+		if dist_from_target == 0 && completed_current == false: # if we've reached the target and not completed the current maze
+			if key_collected: # if we've got the key, move to the next maze
 				$Player.can_move = false
 				$ShiftTimer.stop()
 				completed_current = true
@@ -63,11 +66,12 @@ func _process(delta):
 					tween.tween_callback(fog_away_complete)
 				else: # if all the mazes are finished, go to scene change callback
 					tween.tween_callback(fog_end_complete)
-			else:
+			else: # if we don't have the key, collect it and change the distance counter to the exit distance
 				key_collected = true
 				$Maze.erase_overlay_cell(key_cell)
 				UI_MAIN.get_node("CountToExit/CountToExit_Label").set_text("Distance To Exit")
 				UI_MAIN.get_node("Lock").set_frame(1)
+				$KeyCollect.play()
 		pass
 	else:
 		$Player.can_move = false
