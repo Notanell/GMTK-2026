@@ -58,12 +58,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -241.0
-offset_top = -207.0
+offset_top = -211.5
 offset_right = 241.0
-offset_bottom = 119.0
+offset_bottom = 123.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 8
 
 [node name="Tutorial" type="RichTextLabel" parent="PauseMenu/TextAndBackground/TutorialContainer" unique_id=1987293578]
 layout_mode = 2
@@ -83,7 +83,7 @@ bbcode_enabled = true
 text = "[ul]
 Use arrow keys or WASD to move
 Collect the key to unlock the exit to each level
-The distance to the key or the exit is shown in the bottom left
+The distance to the key or the exit is shown in the bottom left - keep an eye on this, it'll be helpful
 The countdown to the next shift is shown in the bottom right
 [/ul]"
 fit_content = true

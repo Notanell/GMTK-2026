@@ -10,6 +10,7 @@ const maze_sizes : Array[Vector2i] = [Vector2i(8, 6), Vector2i(9, 9), Vector2i(1
 
 var min_shift_time = 5.0
 var max_shift_time = 20.0
+const player_maxidletime := 0.5
 
 # test Game Parameters
 #const maze_sizes : Array[Vector2i] = [Vector2i(4, 4)]
@@ -21,6 +22,9 @@ var key_collected : bool = false
 var start_cell = Vector2i(0, 0)
 var end_cell = Vector2i(0, 0)
 var key_cell = Vector2i(0, 0)
+var dist_from_target = INF
+var last_dist_from_target = INF
+var player_idletime := 0.0
 
 var startup = true
 
@@ -45,7 +49,6 @@ func _ready():
 func _process(delta):
 	$Fog.global_position = $Player.global_position
 	if $Maze.maze_ready == true: # if the maze is ready to be moved around in, do all the processing involved in the player moving around
-		var dist_from_target := 0
 		if key_collected == false:
 			dist_from_target = $Maze.currentdistance_fromtarget($Player.maze_coord, key_cell)
 		else:
@@ -72,6 +75,13 @@ func _process(delta):
 				UI_MAIN.get_node("CountToExit/CountToExit_Label").set_text("Distance To Exit")
 				UI_MAIN.get_node("Lock").set_frame(1)
 				$KeyCollect.play()
+		#if last_dist_from_target == dist_from_target:
+			#player_idletime += delta
+		#else:
+			#player_idletime = 0.0
+		#if player_idletime > player_maxidletime:
+			
+		#last_dist_from_target = dist_from_target
 	else:
 		$Player.can_move = false
 
@@ -112,7 +122,14 @@ func fog_away_complete():
 func fog_end_complete():
 	SceneManager.load_scene("end")
 	
+func draw_fog_in():
+	var tween = get_tree().create_tween()
+	tween.tween_property($Fog, "inner_diam", 0.0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR).set_delay(2.0)
+	
 func select_shift_time(path_length) -> float:
 	var time = pow(path_length, 0.65)
+	#var time_travel = (dist_from_target * $Player.movement_delay) / 0.9
+	#if time_travel > time:
+		#time = time_travel
 	time = ceil(clamp(time, min_shift_time, max_shift_time))
 	return time
