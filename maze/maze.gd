@@ -18,11 +18,7 @@ func new_maze(maze_size_input:Vector2i, start_cell:Vector2i, end_cell := Vector2
 	$OverlayTileLayer.clear() # empty the overlay tile layer 
 	maze_ready = false
 	maze_size = maze_size_input
-	#if maze_size.x > maze_maxsize.x:
-		#maze_size.x = maze_maxsize.x
-	#if maze_size.y > maze_maxsize.y:
-		#maze_size.y = maze_maxsize.y
-	
+
 	if end_cell == Vector2i(-1, -1): # only choose a random end cell if one isn't provided
 		end_cell = select_end_cell(start_cell)
 	if key_cell == Vector2i(-1, -1): # only choose a random end cell if one isn't provided
@@ -44,13 +40,10 @@ func new_maze(maze_size_input:Vector2i, start_cell:Vector2i, end_cell := Vector2
 func place_tile(cell: Vector2i, type : int):
 	if ((type & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['START']):
 		$OverlayTileLayer.set_cell(cell + maze_tileoffset, 1, MazeHelp.tiletype_atlascoord['START'])
-		#return
 	elif ((type & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['END']):
 		$OverlayTileLayer.set_cell(cell + maze_tileoffset, 1, MazeHelp.tiletype_atlascoord['END'])
-		#return
 	elif ((type & MazeHelp.startend_mask) == MazeHelp.tiletype_binary['KEY']):
 		$OverlayTileLayer.set_cell(cell + maze_tileoffset, 1, MazeHelp.tiletype_atlascoord['KEY'])
-		#return
 	for key in MazeHelp.tiletype_binary.keys():
 		if (type & MazeHelp.connect_mask) == MazeHelp.tiletype_binary[key]:
 			$TileMapLayer.set_cell(cell + maze_tileoffset, 0, MazeHelp.tiletype_atlascoord[key])

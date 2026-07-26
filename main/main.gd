@@ -9,7 +9,7 @@ const maze_sizes : Array[Vector2i] = [Vector2i(8, 6), Vector2i(9, 9), Vector2i(1
 #const shift_times : PackedFloat32Array = [5, 5, 7, 9, 10, 10, 10]
 
 var min_shift_time = 5.0
-var max_shift_time = 12.0
+var max_shift_time = 20.0
 
 # test Game Parameters
 #const maze_sizes : Array[Vector2i] = [Vector2i(4, 4)]
@@ -44,7 +44,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	$Fog.global_position = $Player.global_position
-	if $Maze.maze_ready == true:
+	if $Maze.maze_ready == true: # if the maze is ready to be moved around in, do all the processing involved in the player moving around
 		var dist_from_target := 0
 		if key_collected == false:
 			dist_from_target = $Maze.currentdistance_fromtarget($Player.maze_coord, key_cell)
@@ -52,7 +52,7 @@ func _process(delta):
 			dist_from_target = $Maze.currentdistance_fromtarget($Player.maze_coord, end_cell)
 		UI_MAIN.set_counttoexit(dist_from_target)
 		var time_left = $ShiftTimer.get_time_left()
-		if time_left < 1.0 && $MazeChanging.playing == false:
+		if time_left < 1.0 && $MazeChanging.playing == false && completed_current == false:
 			$MazeChanging.playing = true
 		UI_MAIN.set_counttoshift(time_left)
 		if dist_from_target == 0 && completed_current == false: # if we've reached the target and not completed the current maze
@@ -72,7 +72,6 @@ func _process(delta):
 				UI_MAIN.get_node("CountToExit/CountToExit_Label").set_text("Distance To Exit")
 				UI_MAIN.get_node("Lock").set_frame(1)
 				$KeyCollect.play()
-		pass
 	else:
 		$Player.can_move = false
 
@@ -114,6 +113,6 @@ func fog_end_complete():
 	SceneManager.load_scene("end")
 	
 func select_shift_time(path_length) -> float:
-	var time = pow(path_length, 0.75)
+	var time = pow(path_length, 0.65)
 	time = ceil(clamp(time, min_shift_time, max_shift_time))
 	return time

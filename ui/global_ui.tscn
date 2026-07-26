@@ -50,21 +50,43 @@ tile_set = ExtResource("3_83y6d")
 tile_map_data = PackedByteArray("AAAIAA0AAQAEAAQAAAAIAA4AAQADAAQAAAAIAA8AAQAEAAMAAAA=")
 tile_set = ExtResource("3_83y6d")
 
-[node name="Tutorial" type="RichTextLabel" parent="PauseMenu/TextAndBackground" unique_id=1987293578]
-layout_mode = 0
-offset_left = 157.0
-offset_top = 203.0
-offset_right = 638.0
-offset_bottom = 513.0
+[node name="TutorialContainer" type="VBoxContainer" parent="PauseMenu/TextAndBackground" unique_id=2097026150]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.0
+offset_top = -207.0
+offset_right = 241.0
+offset_bottom = 119.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+
+[node name="Tutorial" type="RichTextLabel" parent="PauseMenu/TextAndBackground/TutorialContainer" unique_id=1987293578]
+layout_mode = 2
 theme = ExtResource("3_44nw7")
 theme_override_constants/line_separation = 2
 theme_override_font_sizes/normal_font_size = 30
-text = "Welcome to the maze.... you must escape through the seven, ever growing layers of this spooky maze! But beware, for something is playing games with you - every few seconds, the path in this maze will move around. Even worse, you can only see some of the maze!
-
-- Collect the key to unlock the exit to each level
-- The distance to the key or the exit is shown in the bottom left
-- The countdown to the next shift is shown in the bottom right"
+text = "Welcome to the maze.... you must escape through the seven, ever growing layers of this spooky maze! But beware, for something is playing games with you - every few seconds, the path in this maze will move around. Even worse, you can only see some of the maze!"
+fit_content = true
 horizontal_alignment = 3
+
+[node name="Tutorial2" type="RichTextLabel" parent="PauseMenu/TextAndBackground/TutorialContainer" unique_id=976856049]
+layout_mode = 2
+theme = ExtResource("3_44nw7")
+theme_override_constants/line_separation = 2
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[ul]
+Use arrow keys or WASD to move
+Collect the key to unlock the exit to each level
+The distance to the key or the exit is shown in the bottom left
+The countdown to the next shift is shown in the bottom right
+[/ul]"
+fit_content = true
 
 [node name="PauseContinueText" type="RichTextLabel" parent="PauseMenu/TextAndBackground" unique_id=1811878667]
 layout_mode = 0
@@ -84,7 +106,7 @@ offset_left = 368.0
 offset_top = 523.0
 offset_right = 465.0
 offset_bottom = 642.0
-theme_override_constants/separation = 17
+theme_override_constants/separation = 13
 alignment = 1
 
 [node name="Key" type="RichTextLabel" parent="PauseMenu/TextAndBackground/VBoxContainer" unique_id=1371696024]

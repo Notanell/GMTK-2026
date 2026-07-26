@@ -28,5 +28,6 @@ stream = ExtResource("6_kfbq2")
 
 [node name="MazeChanging" type="AudioStreamPlayer" parent="." unique_id=278050728]
 stream = ExtResource("7_4dugh")
+max_polyphony = 2
 
 [connection signal="timeout" from="ShiftTimer" to="." method="_on_timer_timeout"]
