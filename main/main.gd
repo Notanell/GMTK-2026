@@ -25,7 +25,10 @@ var key_cell = Vector2i(0, 0)
 var dist_from_target = INF
 var last_dist_from_target = INF
 var player_idletime := 0.0
-
+var fog_drawingin = false
+var fog_drawingout = false
+var fogintween
+var fogouttween
 var startup = true
 
 # Called when the node enters the scene tree for the first time.
@@ -75,13 +78,16 @@ func _process(delta):
 				UI_MAIN.get_node("CountToExit/CountToExit_Label").set_text("Distance To Exit")
 				UI_MAIN.get_node("Lock").set_frame(1)
 				$KeyCollect.play()
-		#if last_dist_from_target == dist_from_target:
-			#player_idletime += delta
-		#else:
-			#player_idletime = 0.0
-		#if player_idletime > player_maxidletime:
-			
-		#last_dist_from_target = dist_from_target
+		if completed_current == false: # if the maze isn't finished, check if the fog should be drawing in
+			if last_dist_from_target == dist_from_target:
+				player_idletime += delta
+			else:
+				player_idletime = 0.0
+			if player_idletime == 0.0 && fog_drawingin == true && fog_drawingout == false:
+				draw_fog_in_out(false)
+			if player_idletime > player_maxidletime && fog_drawingin == false:
+				draw_fog_in_out(true)
+			last_dist_from_target = dist_from_target
 	else:
 		$Player.can_move = false
 
@@ -122,9 +128,21 @@ func fog_away_complete():
 func fog_end_complete():
 	SceneManager.load_scene("end")
 	
-func draw_fog_in():
-	var tween = get_tree().create_tween()
-	tween.tween_property($Fog, "inner_diam", 0.0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR).set_delay(2.0)
+func draw_fog_in_out(state : bool): # true for in, false for out
+	if state:
+		fog_drawingin = true
+		fog_drawingout = false
+		if fogouttween != null:
+			fogouttween.kill()
+		fogintween = get_tree().create_tween()
+		fogintween.tween_property($Fog, "inner_diam", 0.0, 2.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR)
+	else:
+		fog_drawingin = false
+		fog_drawingout = true
+		if fogintween != null:
+			fogintween.kill()
+		fogouttween = get_tree().create_tween()
+		fogouttween.tween_property($Fog, "inner_diam", $Fog.default_inner_diam, 0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_LINEAR)
 	
 func select_shift_time(path_length) -> float:
 	var time = pow(path_length, 0.65)
